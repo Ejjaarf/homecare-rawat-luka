@@ -71,7 +71,7 @@ section{padding:64px 0}
 /* Peluang */
 .opp .grid{display:grid;gap:36px;align-items:center}
 .mentor-card{background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 12px 36px rgba(11,42,60,.08)}
-.mentor-card img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top}
+.mentor-card img{width:100%;height:auto;object-fit:contain;background:var(--teal-soft)}
 .mentor-card .cap{padding:18px 20px}
 .mentor-card .cap small{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
 .mentor-card .cap b{font-size:17px}
@@ -281,7 +281,7 @@ footer{background:#06192a;color:#8aa3ae;text-align:center;font-size:13px;padding
 /* ===== KONFIGURASI ===== */
 var WA_GROUP = "https://chat.whatsapp.com/LsFLB9StgUh2l9Olkdse6c?s=cl&p=a&iam=2";
 // Isi dengan URL Web App Google Apps Script (kosongkan kalau belum dipakai)
-var SHEETS_URL = "";
+var SHEETS_URL = "https://script.google.com/macros/s/AKfycbz2PEXH-o7WXe7j6AXeW_lZazdy64k9T3Z9Q18pN4eYCED170XvpAJesDjcSwIPh1Z8/exec";
 
 /* Sticky CTA: muncul setelah scroll lewat hero, sembunyi di form */
 var sticky = document.getElementById('sticky');
@@ -335,7 +335,13 @@ form.addEventListener('submit', function(e){
   function go(){ if (done) return; done = true; window.location.href = WA_GROUP; }
 
   if (SHEETS_URL) {
-    var body = new URLSearchParams({nama:nama, wa:wa, email:email, waktu:new Date().toISOString(), halaman:location.href});
+    // Kirim beberapa alias key supaya cocok dengan header sheet (Nama, WhatsApp, Email)
+    var body = new URLSearchParams({
+      nama:nama, Nama:nama, name:nama,
+      wa:wa, WhatsApp:wa, whatsapp:wa,
+      email:email, Email:email,
+      waktu:new Date().toISOString(), halaman:location.href
+    });
     fetch(SHEETS_URL, {method:'POST', mode:'no-cors', body:body}).finally(function(){ setTimeout(go, 400); });
     setTimeout(go, 2500); // fallback kalau jaringan lambat
   } else {
